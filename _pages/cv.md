@@ -39,37 +39,13 @@ Projects
     * Ph.D candidate supervisor: Ugne **Stolz**
 
 * November 2019 - June 2020: Bachelor thesis at Harbin Institute of Technology
-  * Project title: Structural Variation Detection Algorithm Based on Population Sequencing
+  * Project title: Structural variation detection algorithm based on population sequencing
   * Duties included: Designed a structural variation calling algorithm that utilizes existing structural variations in population databases. Implemented the model using Python and tested performace using precision and recall. 
   * Supervisor: Prof.Dr. **Liu** Bo
   
 Skills
 ======
-* Skill 1
-* Skill 2
-  * Sub-skill 2.1
-  * Sub-skill 2.2
-  * Sub-skill 2.3
-* Skill 3
+* Programming: Python (Numpy, Numba), R (ggplot2), C++ Eigen library
+* Statistical Modeling: Random processes, Simulation algorithms, Sampling algorithms 
+* Software Engineering: Profiling and performance accessments, Test oriented programming
 
-Publications
-======
-  <ul>{% for post in site.publications %}
-    {% include archive-single-cv.html %}
-  {% endfor %}</ul>
-  
-Talks
-======
-  <ul>{% for post in site.talks %}
-    {% include archive-single-talk-cv.html %}
-  {% endfor %}</ul>
-  
-Teaching
-======
-  <ul>{% for post in site.teaching %}
-    {% include archive-single-cv.html %}
-  {% endfor %}</ul>
-  
-Service and leadership
-======
-* Currently signed in to 43 different slack teams
