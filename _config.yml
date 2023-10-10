@@ -7,7 +7,7 @@
 
 # Site Settings
 locale                   : "en-US"
-title                    : "Chenxi Nie"
+title                    : "Home"
 title_separator          : "-"
 name                     : &name "Chenxi Nie"
 description              : &description "Master's student at ETHz"
