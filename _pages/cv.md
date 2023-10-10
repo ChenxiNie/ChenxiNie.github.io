@@ -17,16 +17,31 @@ Education
 
 Projects
 ======
-* March 2022 - July 2022: Long semester project. 
+* March 2022 - July 2022: Long semester project at ETHz. 
   * Project title: Modelling metastatic progression using metMHN. 
-  * Swiss Federal Institute of Technology Zurich
   * Duties included: Designed metMHN, a cancer progression model that models both the primary tumors and the metastases' genetic progression. Developed a tensor acceleration to metMHN and implemented the model in R. Condaucted model valisation using simulations and in real-world datasets.
-  * Supervisor: Prof.Dr. Niko Beerenwinkel
+  * Supervisor: 
+    * Professor: Prof.Dr. Niko **Beerenwinkel**
+    * Ph.D candidate supervisor: Kevin **Rupp**
 
-* Fall 2015: Research Assistant
-  * Github University
-  * Duties included: Merging pull requests
-  * Supervisor: Professor Hub
+* March 2023 - September 2023: Master thesis project at ETHz
+  * Project title: Scaling up MetMHN: a sampling based approach. 
+  * Duties included: Developed a MCMC based sampling algorithm for metMHN which speed it up 100 times. Efficient implementation of Sampling-MetMHN in C++. Model validation using simulations and real-world datasets on a larger scale. 
+  * Supervisor: 
+    * Professor: Prof.Dr. Niko **Beerenwinkel**
+    * Ph.D candidate supervisor: Kevin **Rupp**
+  
+* September 2022 - November 2022: Short semester project at ETHz.
+  * Project title: SCoRe validation -- elevated reassortment rate before migration events. 
+  * Duties included: Understand SCoRe and BEAST software. Proposed and implemented simulation algorithms to verify whether reassortment rate is elevated before host jump events using R and Java. Search for biological literature about viral reassortment rates and host jump events. 
+  * Supervisor:
+    * Professor: Prof.Dr. Tanja **Stadler**
+    * Ph.D candidate supervisor: Ugne **Stolz**
+
+* November 2019 - June 2020: Bachelor thesis at Harbin Institute of Technology
+  * Project title: Structural Variation Detection Algorithm Based on Population Sequencing
+  * Duties included: Designed a structural variation calling algorithm that utilizes existing structural variations in population databases. Implemented the model using Python and tested performace using precision and recall. 
+  * Supervisor: Prof.Dr. **Liu** Bo
   
 Skills
 ======
