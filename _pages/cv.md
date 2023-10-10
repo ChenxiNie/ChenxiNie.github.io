@@ -11,16 +11,17 @@ redirect_from:
 
 Education
 ======
-* B.S. in GitHub, GitHub University, 2012
-* M.S. in Jekyll, GitHub University, 2014
-* Ph.D in Version Control Theory, GitHub University, 2018 (expected)
+* B.E. in Bioinformatics, Harbin Institute of Technology, September 2016 - June 2020
+* M.S. in Computational Biology and Bioinformatics, Swiss Federal Institute of Technology Zurich, September 2020 - September 2023
+* Ph.D (actively looking for a Ph.D program in the field of statistic modelling in bioinformatics)
 
-Work experience
+Projects
 ======
-* Summer 2015: Research Assistant
-  * Github University
-  * Duties included: Tagging issues
-  * Supervisor: Professor Git
+* March 2022 - July 2022: Long semester project. 
+  * Project title: Modelling metastatic progression using metMHN. 
+  * Swiss Federal Institute of Technology Zurich
+  * Duties included: Designed metMHN, a cancer progression model that models both the primary tumors and the metastases' genetic progression. Developed a tensor acceleration to metMHN and implemented the model in R. Condaucted model valisation using simulations and in real-world datasets.
+  * Supervisor: Prof.Dr. Niko Beerenwinkel
 
 * Fall 2015: Research Assistant
   * Github University
