@@ -54,7 +54,7 @@ Metastatic cancer typically starts with one primary tumor and then the primary t
 Similar to MHN, in MetMHN, each datapoint is encoded as a bitstring as well. However, to include both the primary tumor and the metastasis, we have to double the length of the bitstring. Additionally, we add one bit for the seeding event. Thus, in MetMHN with $n$ events, the final length of that datapoint's bitstring is $2n+1$. 
 
 
-
+![](https://raw.githubusercontent.com/ChenxiNie/ChenxiNie.github.io/60d391ce993db4d5d691326e965f53efebe33b02/images/Met_MHN_State_Space.svg)
 
 
 References
