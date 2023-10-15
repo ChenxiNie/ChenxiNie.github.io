@@ -36,7 +36,7 @@ MetMHN: A cancer progression model that works on metastasis
 
 Sampling-MetMHN is based on Mutual Hazard Networks (MHN). MHN is a state-of-the-art cancer progression model that models the progression of one single tumor. It models tumor progression as a continuous time Markov process (fig below). It is assumed that every tumor starts from a mutation-free state and evolves according to a Markov Chain until it reaches a state where all of the genomic events have happened. 
 
-![Alt text](../images/Markov_Chain_MHN.png)
+![Alt text](ChenxiNie.github.io/images/Markov_Chain_MHN.png)
 
 
 
