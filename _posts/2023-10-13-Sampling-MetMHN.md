@@ -74,9 +74,13 @@ It is obvious that the probability of observing set $V$ is a sum over the probab
 
 $$p(V;\theta) = \sum_{i} p(\sigma_i;\theta)$$
 
-$\theta$ represents the model parameters of Sampling-MetMHN. The probability of observing a chronologically known sequence $\sigma_i$ is already given by Gotovos et al[5]. Now we focus on calculating the log-derivative of $p(V;\theta)$. 
+$\theta$ represents the model parameters of Sampling-MetMHN. Then the log-derivative of $p(V;\theta)$ is given by the following equation.
 
 $$\nabla_\theta\log p(V;\theta) = \frac{1}{p(V;\theta)}\nabla_\theta p(V;\theta) = \frac{1}{p(V;\theta)}\sum_{i}\nabla_\theta p(\sigma_i;\theta) = \sum_{i} \frac{p(\sigma_i;\theta)}{p(V;\theta)}\nabla_\theta \log p(\sigma;\theta)$$
+
+The probability of observing a chronologically known sequence $\sigma_i$ and its log derivative are already given by Gotovos et al[5].
+
+
 
 
 
