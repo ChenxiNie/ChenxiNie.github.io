@@ -80,7 +80,7 @@ $$\nabla_\theta\log p(V;\theta) = \frac{1}{p(V;\theta)}\nabla_\theta p(V;\theta)
 
 The probability of observing a chronologically known sequence $\sigma_i$ and its log derivative are already given by Gotovos et al[5].
 
-
+The problem of calculating the log-derivative using the above equation is the number of sequences corresponding to a set $V$. For a set of size $\|V\|$, we have to sum over $\|V\|!$ terms!
 
 
 
