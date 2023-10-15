@@ -8,8 +8,6 @@ tags:
   - MCMC Sampling
 ---
 
-Modeling Metastatic Progression With Sampling-MetMHN
-=================
 
 We're excited to introduce **Sampling-MetMHN**, a fast approximate MHN[1] framework that models both primary tumors and metastases. 
 
@@ -38,7 +36,7 @@ MetMHN: A cancer progression model that works on metastasis
 
 Sampling-MetMHN is based on Mutual Hazard Networks (MHN). MHN is a state-of-the-art cancer progression model that models the progression of one single tumor. It models tumor progression as a continuous time Markov process (fig below). It is assumed that every tumor starts from a mutation-free state and evolves according to a Markov Chain until it reaches a state where all of the genomic events have happened. 
 
-![](./Markov_Chain_MHN.svg)
+![](./Markov_Chain_MHN.png)
 
 
 
