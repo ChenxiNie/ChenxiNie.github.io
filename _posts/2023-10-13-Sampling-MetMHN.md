@@ -80,8 +80,15 @@ $$\nabla_\theta\log p(V;\theta) = \frac{1}{p(V;\theta)}\nabla_\theta p(V;\theta)
 
 The probability of observing a chronologically known sequence $\sigma_i$ and its log derivative are already given by Gotovos et al[5].
 
-The problem of calculating the log-derivative using the above equation is the number of sequences corresponding to a set $V$. For a set of size $\|V\|$, we have to sum over $\|V\|!$ terms!
+The problem of calculating the log-derivative using the above equation is the number of sequences corresponding to a set $V$. For a set of size $\|V\|$, we have to sum over $\|V\|!$ terms! This is feasible for only very small set size. However, the last term of the above equation suggests that the log-derivaitve of $p(V;\theta)$ is a sum of the log derivative of every possible sequence, weighted by probability of observating that sequence given set $V$. Based on this observation, a stochastic approximation to the above equation can be done by first sample $M$ sequences $\sigma_1, \sigma_2,..., \sigma_M$ from distribution $p(\cdot|V;\theta) = \frac{p(\cdot;\theta)}{p(V;\theta)}$, and then calculates the approximated log derivative of $p(V;\theta)$ by 
 
+$$\nabla_\theta \log p(V;\theta) \approx \frac{1}{M} \sum_{i=1}^M \nabla_\theta \log p(\sigma_i;\theta)$$
+
+We used Metropolis-Hasting algorithm to sample from distribution $p(\cdot|S;\theta)$ [6][7]. In this algorithm, at every time step, we first propose a new sequence $\sigma_{new}$ from some proposal distribution $Q$ based on our current sequence $\sigma$ and $\theta$. Then we make a transition to $\sigma_{new}$ with probability $p_{accept}$ given by 
+
+$$p_{accept} = \min \left(1, \frac{p(\sigma_{new}|V;\theta)Q(\sigma|\sigma_{new};\theta)}{p(\sigma|V;\theta)Q(\sigma_{new}|\sigma;\theta)}\right)$$
+
+With this Metropolis-Hasting sampler, we can calculate the log-derivative of Sampling-MetMHN efficiently.
 
 
 References
@@ -99,3 +106,7 @@ journal of pathology, 153(3):865–873.
 133(3421):571–573.
 
 [5] Gotovos, A., Burkholz, R., Quackenbush, J., and Jegelka, S. (2021). Scaling up continuous-time markov chains helps resolve underspecification. Advances in Neural Information Processing Systems, 34:14580–14592.
+
+[6] Metropolis, N., Rosenbluth, A. W., Rosenbluth, M. N., Teller, A. H., and Teller, E. (1953). Equation of state calculations by fast computing machines. The journal of chemical physics, 21(6):1087–1092.
+
+[7] Hastings, W. K. (1970). Monte carlo sampling methods using markov chains and their applications.
