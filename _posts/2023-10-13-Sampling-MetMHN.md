@@ -34,10 +34,20 @@ MetMHN: A cancer progression model that works on metastasis
 
 ## The base: Mutual Hazard Networks
 
-Sampling-MetMHN is based on Mutual Hazard Networks (MHN). MHN is a state-of-the-art cancer progression model that models the progression of one single tumor. It models tumor progression as a continuous time Markov process (fig below). It is assumed that every tumor starts from a mutation-free state and evolves according to a Markov Chain until it reaches a state where all of the genomic events have happened. 
+Sampling-MetMHN is based on Mutual Hazard Networks (MHN). MHN is a state-of-the-art cancer progression model that models the progression of one single tumor. It models tumor progression as a continuous time Markov process. It is assumed that every tumor starts from a mutation-free state and evolves according to a Markov Chain until it reaches a state where all of the genomic events have happened. 
 
 ![Alt text](https://github.com/ChenxiNie/ChenxiNie.github.io/blob/master/images/Markov_Chain_MHN.png?raw=true)
 
+In an MHN with $n$ genomic events, each datapoint is encoded as a bitstring of length $n$. The $i$=th bit encodes the presence (1) or the absence (0) of the $i$-th event. Table below illustrate an example datapoint in MHN where mutations 1, 2, and 5 are present and mutations 3 and 4 are absent. 
+
+| Mut 1 | Mut 2 | Mut 3 | Mut 4 | Mut 5 | ... |
+|-------|-------|-------|-------|-------|-----|
+| 1     | 1     | 0     | 0     | 1     | ... |
+
+
+## From MHN to MetMHN: Enabling metastasis in MHN framework 
+
+Metastatic cancer typically starts with one primary tumor and then the primary tumor goes through a series of steps to form an initial metastatic tumor at a distant site. Based on this observation and naming after the seed and soil hypothesis, we define the seeding event as a representation of these steps that the primary tumor takes to successfully form an initial metastatic tumor. We assume that prior to the successful seeding event, the primary tumor and the (potential) metastasis evolve jointly as one physical entity and every mutation that occurs in the primary tumor also occurs in the (potential) metastasis. Once the seeding event has happened, the primary tumor and the metastasis are physically separated and are assumed to eveolve independently. 
 
 
 
