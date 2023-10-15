@@ -49,6 +49,8 @@ In an MHN with $n$ genomic events, each datapoint is encoded as a bitstring of l
 
 Metastatic cancer typically starts with one primary tumor and then the primary tumor goes through a series of steps to form an initial metastatic tumor at a distant site. Based on this observation and naming after the seed and soil hypothesis, we define the seeding event as a representation of these steps that the primary tumor takes to successfully form an initial metastatic tumor. We assume that prior to the successful seeding event, the primary tumor and the (potential) metastasis evolve jointly as one physical entity and every mutation that occurs in the primary tumor also occurs in the (potential) metastasis. Once the seeding event has happened, the primary tumor and the metastasis are physically separated and are assumed to eveolve independently. 
 
+![](https://raw.githubusercontent.com/ChenxiNie/ChenxiNie.github.io/e5bb3732515d30968d809134d23e935deacbc84d/images/CTMC_MetMHN.svg)
+
 
 
 References
