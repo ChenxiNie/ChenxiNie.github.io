@@ -56,6 +56,29 @@ Similar to MHN, in MetMHN, each datapoint is encoded as a bitstring as well. How
 
 ![](https://raw.githubusercontent.com/ChenxiNie/ChenxiNie.github.io/60d391ce993db4d5d691326e965f53efebe33b02/images/Met_MHN_State_Space.svg)
 
+## From MetMHN to Sampling-MetMHN: a Markov Chain Monte Carlo Sampler for MetMHN 
+
+When using first-order optimization algorithms, the majority of time is devoted to calculating the gradient of marginal log-likelihood with respect to parameters. Here, we propose a MCMC based sampling algorithm to calculate the derivative of MetMHN efficiently. The idea of this method  closely follows the work from Gotovos et al. in which they deveoped a similar sampling algorithm for the original MHN[5]. 
+
+The input of Sampling-MetMHN is a collection of bitstrings representing each patient's genotypes. These bitstrings tell us about which mutations have happened in the patients. What is does **not** tell us is the chronological order of these mutations. For example, let us consider a patient with genotype 11|00|1. This genotype tells us that mutation 1 has happened to both the primary tumor and the metastasis. What it does not tell us is the specific order of mutation 1. It could come from either of the three scenarios. 
+
+1. Mutation 1 happened before the seeding event, then the seeding event happened 
+
+2. The seeding event happened, then mutation 1 happened to the primary tumor, and then mutation 1 happened to the metastasis. 
+
+3. The seeding event happened, then mutation 1 happened to the metastasis, finally mutation 1 happened to the primary tumor.
+
+For similification, we refer the set $V$ as the set formed by all mutations that has happened as indicated by the bitstring.We then refer to the chronologically known scenarios corresponding to set $V$ as **sequences** and denote them as $\sigma$. For example, the genotype 11|00|1 indicates that set $V$ is the set formed by $\{$ mutation 1 in the primary tumor, mutation 1 in the metastasis, the seeding event $\}$, and there are three sequences correponding to this set $V$, $\sigma_1$, $\sigma_2$, $\sigma_3$ corresponding to the three scenarios above. 
+
+It is obvious that the probability of observing set $V$ is a sum over the probability of observing its corresponding sequences as shown below. 
+
+$$p(V;\theta) = \sum_{i} p(\sigma_i;\theta)$$
+
+$\theta$ represents the model parameters of Sampling-MetMHN. The probability of observing a chronologically known sequence $\sigma_i$ is already given by Gotovos et al[5]. Now we focus on calculating the log-derivative of $p(V;\theta)$. 
+
+$$\nabla_\theta\log p(V;\theta) = \frac{1}{p(V;\theta)}\nabla_\theta p(V;\theta) = \frac{1}{p(V;\theta)}\sum_{i}\nabla_\theta p(\sigma_i;\theta) = \sum_{i} \frac{p(\sigma_i;\theta)}{p(V;\theta)}\nabla_\theta \log p(\sigma;\theta)$$
+
+
 
 References
 ==========
@@ -70,3 +93,5 @@ journal of pathology, 153(3):865–873.
 
 [4] Paget, S. (1889). The distribution of secondary growths in cancer of the breast. The Lancet,
 133(3421):571–573.
+
+[5] Gotovos, A., Burkholz, R., Quackenbush, J., and Jegelka, S. (2021). Scaling up continuous-time markov chains helps resolve underspecification. Advances in Neural Information Processing Systems, 34:14580–14592.
