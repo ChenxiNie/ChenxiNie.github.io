@@ -26,7 +26,7 @@ Projects
 
 * March 2023 - September 2023: Master thesis project at ETHz
   * Project title: Scaling up MetMHN: a sampling based approach. 
-  * Duties included: Developed an MCMC based sampling algorithm for metMHN, which speeded it up 100 times. Efficient implementation of Sampling-MetMHN in C++. Model validation using simulations and real-world datasets on a larger scale. 
+  * Duties included: Developed an MCMC based sampling algorithm for metMHN, which speeded it up 50 times. Efficient implementation of Sampling-MetMHN in C++. Model validation using simulations and real-world datasets on a larger scale. 
   * Supervisor: 
     * Professor: Prof.Dr. Niko **Beerenwinkel**
     * Ph.D. candidate supervisor: Kevin **Rupp**
