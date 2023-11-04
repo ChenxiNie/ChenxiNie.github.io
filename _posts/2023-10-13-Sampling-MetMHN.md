@@ -132,6 +132,16 @@ We then applied Sampling-MetMHN to a pancreatic cancer dataset with 35 genomic e
 
 In the perfect setting, we would also be able to obtain the 998 patients' metastasis genotype, making in total 1074 *paired patients*. However, since Sampling-MetMHN requires the genotypes of both tumors, we can only include 76 *paired patients* in our real dataset. This means that we have a biased dataset where the ratio between *paired patients* and *priamry only* patients is skewed and *paired patients* are massively underrepresented. To counteract this skewed ratio, we introduce a weight of $998 / (998 + 123) = 0.89$ for every *paired partient* and a weight of $1 - 0.89 = 0.11$ for every *primary only patient* when calculating the log derivative. 
 
+The output of Sampling-MetMHN is shown below. The most important observation here is that Sampling-MetMHN is able to recover the underlying data structure of this dataset. 
+
+In the picture below, we see a mutual exclusive effect of the genomic event denoted as "Mut.KRAS" (single nucleotide variant (SNV) in KRAS) and "Mut.MEN1" (SNV in MEN1).This observation reassures that we have correctly captured the underlying structure of this dataset. This dataset is constructed using two subtypes of pancreatic cancers, pancreatic adenocarcinomas (PAAD) and pancreatic neuroendocrine tumors (PANET). These two subtypes of pancreatic cancers originated from different cell types found in the pancreas, making their genomic profiles distinct from each other. Pancreatic adenocarcinomas are driven by mutations in gene KRAS and pancreatic neuroendocrine tumors are characterized by mutations in genes MEN1, DAXX, and ATRX. These two distinct genomic profiles mean that mutations of KRAS would not have any selective advantage in PANET while mutations in MEN1 give no selective advantage to PAAD. This is correctly captured by the mutual exclusive effect of KRAS and MEN1. Moreover, the promotion of DAXX and ATRX by MEN1 is observed. (See entry (Mut.DAXX, Mut.MEN1) and entry (Mut.ATRX, Mut.MEN1))
+
+![](https://github.com/ChenxiNie/ChenxiNie.github.io/blob/master/images/theta_real.png?raw=true)
+
+Discussion
+==========
+
+In the figure below, we show the output $\hat\theta$ from the simulation study on the left and the ground truth $\theta$ on the right. 
 
 References
 ==========
