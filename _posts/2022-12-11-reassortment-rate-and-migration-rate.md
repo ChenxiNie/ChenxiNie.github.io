@@ -26,7 +26,9 @@ Here we first formally describe an existing algorithm that does not scale the re
 
 ## Structure Coalescent Network Simulation 
 
-The generation of SCoRe networks can be modeled as a continuous backward-in-time Markov Chain (CTMC), that is characterized by *coalescent*, *migration*, *reassortment*, and *sampling* events. To simulate this CTMC, an adaptation of the Gillespie algorithm was developed. 
+The generation of SCoRe networks can be modeled as a continuous backward-in-time Markov Chain (CTMC), that is characterized by *coalescent*, *migration*, *reassortment*, and *sampling* events, as shown below. To simulate this CTMC, an adaptation of the Gillespie algorithm was developed.
+
+![](https://github.com/ChenxiNie/ChenxiNie.github.io/blob/master/images/Four%20Kinds%20of%20events.png?raw=true)
 
 The first input of this algorithm is a list $L$, representing $n$ initial samples. Assume we are modeling $m$ types and each type is represented by a positive integer from $1$ to $m$, then the $i$-th lineage $l$ in the list can be defined by its type $I \in$ {$1, ..., m$} and the ancestral segments $C(l)$ it carries at time $t_i$ (i.e. $l = [I, C(l)]$). We also assume that all lineages in this list carry a full set of genomic segments. Additionally, we require the sampling time $t_i$ for each of the lineages in the list. 
 
@@ -35,6 +37,9 @@ Since we only allow for coalescent events between lineage $l$ and $l'$ if they a
 The third input of the algorithm belongs to migration rate $\mu_{ab}$, measured per lineage and per time unit. It describes the rate at which one lineage of type $a$, i.e. $l_1 = [a, C(l_1)]$ migrates to another type b, i.e. $l_1'=[b, C(l_1)]$. The time to the next migration event where one lineage of type $a$ migrates to type $b$ is then modeled by an exponential distribution with $\mu_{ab}k_a$. Migration events do not change the segments that lineage has. 
 
 When reassortment events happen, ancestral segments carried by the child lineage are split between its two parents $l_{p1}$ and $l_{p2}$. The two parents share the same type as the child lineage while each segment of the child lineage is assigned to $l_{p1}$ with probability $p$ and assigned to $l_{p2}$ with probability $1-p$. A reassortment event is unobservable when all the segments from the child lineage are assigned to one of its parents. Since SCoRe assumes $p = \frac{1}{2}$, this unobservable reassortment happens with probability $2 \times \left(\frac{1}{2}\right)^{\|C(l)\|}$, where $\|C(l)\|$ is the number of ancestral segments carried by the child lineage $l$. Reassortment rate $\rho$ of each type makes the fourth input of our simulation algorithm. Then the time to the next reassortment event of type $a$ can be modeled by an exponential distribution with $\rho_ak_a$.
+
+With the introduction of the four inputs, we can describe formally the structure coalescent network simulation algorithm in the algorithm below. 
+
 
 
 
