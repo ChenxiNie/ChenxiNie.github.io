@@ -113,16 +113,24 @@ In this simulation test, we modeled $n = 8$ genomic events. We randomly filled 9
 
 With this groud truth $\theta$ matrix, we again used the Gillespie algorithm and generated 800 samples as the input dataset $\mathcal{D}$ of Sampling-MetMHN. We then trained a MetMHN using these 800 samples. The output matrix of Sampling-MetMHN is denoted $\hat{\theta}$.
 
-To compare the distribution of state space $S$ given the dataset $\mathcal{D}$, we used the same Gillespie algorithm and generated 50,000 sample genotypes for bothe the ground truth theta ($\theta$) and the inferred theta $\hat{\theta}$.Then, for both $\theta$ and $\hat{\theta}$, we calculated the frequency of every possible genotype for $n=10$ events using these $50,000$ samples. The result $\text{freq}_\theta$ and $\text{freq}_{\hat{\theta}}$ are summarized in the table below. 
+To compare the distribution of state space $S$ given the dataset $\mathcal{D}$, we used the same Gillespie algorithm and generated 50,000 sample genotypes for bothe the ground truth theta ($\theta$) and the inferred theta $\hat{\theta}$.Then, for both $\theta$ and $\hat{\theta}$, we calculated the frequency of every possible genotype for $n=10$ events using these $50,000$ samples. The result $freq_\theta$ and ${freq}_{\hat{\theta}}$ are summarized in the table below. 
 
 | genotype                     | 00\|00\|...\|00\|0 | 00\|00\|...\|00\|1 | ...  | 11\|11\|...\|11\|1 |
 |------------------------------|--------------------|--------------------|------|--------------------|
-| $\text{freq}_\theta$         | 0.024              | 1.19e-5            | .... | 0.0032             |
-| $\text{freq}_{\hat{\theta}}$ | 0.015              | 2e-6               | ...  | 0.00577            |
+| ${freq}_\theta$         | 0.024              | 1.19e-5            | .... | 0.0032             |
+| ${freq}_{\hat{\theta}}$ | 0.015              | 2e-6               | ...  | 0.00577            |
 
-We then move on to plot the direct difference between each entry, i.e. $d_i = \text{freq}_\theta - \text{freq}_{\hat{\theta}}$, where $i \in \{ \text{all possible genotype}\}$.As can be seen from the figure below, the maximum difference between the two distributions is below 0.020.
 
-![](../images/simulation_distribution_comparison.png)
+We then move on to plot the direct difference between each entry, i.e. 
+$d_i = freq_\theta - freq_{\hat\theta}$, where $i \in$ {all possible genotype}.As can be seen from the figure below, the maximum difference between the two distributions is below 0.020.
+
+![](https://github.com/ChenxiNie/ChenxiNie.github.io/blob/master/images/simulation_distribution_comparison.png?raw=true)
+
+## Real Dataset
+
+We then applied Sampling-MetMHN to a pancreatic cancer dataset with 35 genomic events. This dataset contains 76 patients where both their primary tumors and metastases are sequenced, 123 patients who did not suffer from metastases, and 998 patients who had metastasis, however, only the primary tumor is sequenced and the genotype of the metastasis is unknown. For simplicity, we call the 76 patients with both tumors sequenced, *paired patients*, and 123 patients with only primary tumor, *primary only patient*. 
+
+In the perfect setting, we would also be able to obtain the 998 patients' metastasis genotype, making in total 1074 *paired patients*. However, since Sampling-MetMHN requires the genotypes of both tumors, we can only include 76 *paired patients* in our real dataset. This means that we have a biased dataset where the ratio between *paired patients* and *priamry only* patients is skewed and *paired patients* are massively underrepresented. To counteract this skewed ratio, we introduce a weight of $998 / (998 + 123) = 0.89$ for every *paired partient* and a weight of $1 - 0.89 = 0.11$ for every *primary only patient* when calculating the log derivative. 
 
 
 References
