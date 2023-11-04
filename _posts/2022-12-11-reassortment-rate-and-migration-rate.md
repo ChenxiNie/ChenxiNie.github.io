@@ -58,17 +58,26 @@ $$
 
 Since at the sampling time, no migration event can happen, we set the initial time window $W_i$ to -1 by default and after a migration event at time $t$, we update $l_i$'s $W_i$ to $t + W_i$. 
 
-With the introduction of the time window, we have to modify how to calculate the time until next reassortment event. Instead of directly using $\rho_ak_a$, we have to divide $k_a$ into two parts $k_{a1}$ and $k_{a2}$ where $k_{a1}$ is the number of lineages of type $a$ that is not in a time window, and $k_{a2} = k_a - k_{a1}$ is the number of lineages of type $a$ that is currently inside a time window. Now, we then model the time until the next reassortment event using an exponential distribution of rate $\rho_ak_{a1} + \rho_aS_ak_{a2}$ where $S_a$ is the reassortment scalar of type $a$ when its lineage is in a time window. Since we do not scale migration and coalescent rate, the time until the next migration event and the time until the next coalescent event are modeled using the same distribution described above. Updated rules regarding the parent(s) of these three kinds of events are described using an example of 3 lineages shown in the figure below. 
+With the introduction of the time window, we have to modify how to calculate the time until the next reassortment event. Instead of directly using $\rho_ak_a$, we have to divide $k_a$ into two parts $k_{a1}$ and $k_{a2}$ where $k_{a1}$ is the number of lineages of type $a$ that is not in a time window, and $k_{a2} = k_a - k_{a1}$ is the number of lineages of type $a$ that is currently inside a time window. Now, we then model the time until the next reassortment event using an exponential distribution of rate $\rho_ak_{a1} + \rho_aS_ak_{a2}$ where $S_a$ is the reassortment scalar of type $a$ when its lineage is in a time window. Since we do not scale migration and coalescent rate, the time until the next migration event and the time until the next coalescent event are modeled using the same distribution described above. Updated rules regarding the parent(s) of these three kinds of events are described using an example of 3 lineages shown in the figure below. 
 
-![](https://github.com/ChenxiNie/ChenxiNie.github.io/blob/master/images/Simulation_with_Time_Window.jpg?raw=true)
+![](https://github.com/ChenxiNie/ChenxiNie.github.io/blob/master/images/Simulation_with_Time_Window_2.jpg?raw=true)
 
 Going backward in time we have:
 
 1. At $t=0$, there are two samples, one human $l_1=[H, -1]$ and one avian $l_2[A, -1]$. Since we did not change the modeling of ancestral segments, $C{(l_i)}$ is omitted here for simplicity. 
 2. At $t1$, the human sample migrated to avian. Thus we have to change its type from Human to Avian and then we open a time window of length $w$ and update the time window for this sample. This means we update $l_1=[H,-1]$ to $l_3=[A, t1 + w]$. We then keep track of this lineage $l_3$ and scale its reassortment rate by a constant factor $S$.
 3. At $t2$, a coalescent event happened between $l_2$ and $l_3$. Here, we define that if one child lineage in the coalescent event is in a time window, then the parent lineage is also in a time window and the time window of that parent lineage is $\max(w_1,w_2)$ where $w_1$ and $w_2$ are the time windows of the two children. With that, the parent of $l_2$ and $l_3$ is a lineage with type $A$ and time window $\max(t1+w, -1) = t1+w$, i.e. $l_4 = [A, t1+w]$.
-4. At $t3$, sampling event happened and another human sample $l_5 = [H, -1]$ was introduced. 
+4. At $t3$, a sampling event happened and another human sample $l_5 = [H, -1]$ was introduced. 
 5. At $t4$, a reassortment event happened. For reassortment events, we define that the two parent lineage shares the same time window as the child lineage. Here, lineage $l_4 = [A, t1+w]$, so its two parents $l_6$ and $l_7$ are both type A and have their time windows set to $t1+w$. 
-6. At $t5$, another reassortment event happened, but this time, lineage $l_5$ is not in a time window. So, the parents of $l_5$, $l_6$ and $l_7$ are not in the   
+6. At $t5$, another reassortment event happened, but this time, lineage $l_5$ is not in a time window. So, the parents of $l_5$, $l_8$ and $l_9$ are not in the time window as well. 
+7. At $t6$, lineage $l8$ migrated to Avian. We have to open another time window and track lineage $l_{10}$ which has a time window of $t6+w$. 
+8. At $t_1+w$, the first time window reaches an end and we move all lineages that were previously in the time window out of the time window. In this case, we set $l_6$ and $l_7$'s time windows back to -1.
+9. At $t7$, another coalescent event happened, based on the definition we gave at time $t2$, we know that here lineage $l_{11}$ has type $A$ and time window $t6+w$.  
+
+## Correctness of the algorithm
+
+To verify the correctness of our simulation algorithm with time window, we compared our simulation algorithm to the original structure coalescent network simulation algorithm. In order to make sure that our algorithm behaves the same as the algorithm without time windows, we set the scalar constant to 1 (i.e. we do not scale the reassortment rate even if the lineage is in a time window). 
+
+We then simulated 100,000 networks with 100 samples and 2 types. We used the same sampling time, coalescent rate, migration rate, and reassortment rate for the two algorithms and set the scalar of the time window of both types to 1. We then plotted the distribution of the network height, the total network length, the reassortment events count, and the Kolmogorov-Smirnov statistics for the above three statistics in the figure below. 
 
 
