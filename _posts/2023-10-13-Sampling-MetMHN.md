@@ -9,18 +9,18 @@ tags:
 ---
 
 
-We're excited to introduce **Sampling-MetMHN**, a fast approximate MHN[1] framework that models both primary tumors and metastases. 
+We're excited to introduce **Sampling-MetMHN**, a fast approximate MHN framework that models both primary tumors and metastases. 
 
 To the best of our of our knowledge, it is one of the first cancer progression models that manages to model the genetic progression of primary tumors and metastases simultaneously. We show that it is able to recover some of the key findings documented in pancreatic cancer literature as well as promote potentially new genomic interactions. 
 
 Metastatic cancer progression 
 =================
 
-The term metastatic cancer refers to the systematic spread of cancer from the initial tumor site to different areas of the body[2]. We often refer to the tumor in the initial tumor site as the primary tumor and the tumor that colonized in other areas as metastasis or secondary tumor. 
+The term metastatic cancer refers to the systematic spread of cancer from the initial tumor site to different areas of the body. We often refer to the tumor in the initial tumor site as the primary tumor and the tumor that colonized in other areas as metastasis or secondary tumor. 
 
-Metastatic cancer progression is highly selective. In cancer patients, large numbers of cancer cells are released into the circulation system on a daily bases. However, only less than 0.1% of tumor cells establish metastatic secondary tumors[3]. 
+Metastatic cancer progression is highly selective. In cancer patients, large numbers of cancer cells are released into the circulation system on a daily bases. However, only less than 0.1% of tumor cells establish metastatic secondary tumors. 
 
-Apart from highly selective, metastatic cancer progression is organ-specific as well. This organ-specific aspect of metastatic progression is captured by the famous seed and soil hypothesys by Paget in 1889[4]. Paget noticed that in nature, when plants go to seed, their seeds are carried in all directions, but the seed can only grow if it lands on congenial soil. Drawing an analogy from this observation, the seed and soil hypothesis suggests that cancer cells from the primary tumor (the seed) can spread to different parts of the body. However, these cancer cells can only suceed in colonizing if the microenvironment on which they land is pleasant. 
+Apart from highly selective, metastatic cancer progression is organ-specific as well. This organ-specific aspect of metastatic progression is captured by the famous seed and soil hypothesys by Paget in 1889. Paget noticed that in nature, when plants go to seed, their seeds are carried in all directions, but the seed can only grow if it lands on congenial soil. Drawing an analogy from this observation, the seed and soil hypothesis suggests that cancer cells from the primary tumor (the seed) can spread to different parts of the body. However, these cancer cells can only suceed in colonizing if the microenvironment on which they land is pleasant. 
 
 Existing models of metastatic cancer progression
 =======
@@ -58,7 +58,7 @@ Similar to MHN, in MetMHN, each datapoint is encoded as a bitstring as well. How
 
 ## From MetMHN to Sampling-MetMHN: a Markov Chain Monte Carlo Sampler for MetMHN 
 
-When using first-order optimization algorithms, the majority of time is devoted to calculating the gradient of marginal log-likelihood with respect to parameters. Here, we propose a MCMC based sampling algorithm to calculate the derivative of MetMHN efficiently. The idea of this method  closely follows the work from Gotovos et al. in which they deveoped a similar sampling algorithm for the original MHN[5]. 
+When using first-order optimization algorithms, the majority of time is devoted to calculating the gradient of marginal log-likelihood with respect to parameters. Here, we propose a MCMC based sampling algorithm to calculate the derivative of MetMHN efficiently. The idea of this method  closely follows the work from Gotovos et al. in which they deveoped a similar sampling algorithm for the original MHN. 
 
 The input of Sampling-MetMHN is a collection of bitstrings representing each patient's genotypes. These bitstrings tell us about which mutations have happened in the patients. What is does **not** tell us is the chronological order of these mutations. For example, let us consider a patient with genotype $11\|00\|1$. This genotype tells us that mutation 1 has happened to both the primary tumor and the metastasis. What it does not tell us is the specific order of mutation 1. It could come from either of the three scenarios. 
 
@@ -78,13 +78,13 @@ $\theta$ represents the model parameters of Sampling-MetMHN. Then the log-deriva
 
 $$\nabla_\theta\log p(V;\theta) = \frac{1}{p(V;\theta)}\nabla_\theta p(V;\theta) = \frac{1}{p(V;\theta)}\sum_{i}\nabla_\theta p(\sigma_i;\theta) = \sum_{i} \frac{p(\sigma_i;\theta)}{p(V;\theta)}\nabla_\theta \log p(\sigma;\theta)$$
 
-The probability of observing a chronologically known sequence $\sigma_i$ and its log derivative are already given by Gotovos et al[5].
+The probability of observing a chronologically known sequence $\sigma_i$ and its log derivative are already given by Gotovos et al.
 
 The problem of calculating the log-derivative using the above equation is the number of sequences corresponding to a set $V$. For a set of size $\|V\|$, we have to sum over $\|V\|!$ terms! This is feasible for only very small set size. However, the last term of the above equation suggests that the log-derivaitve of $p(V;\theta)$ is a sum of the log derivative of every possible sequence, weighted by probability of observating that sequence given set $V$. Based on this observation, a stochastic approximation to the above equation can be done by first sample $M$ sequences $\sigma_1, \sigma_2,..., \sigma_M$ from distribution $p(\cdot\|V;\theta) = \frac{p(\cdot;\theta)}{p(V;\theta)}$, and then calculates the approximated log derivative of $p(V;\theta)$ by 
 
 $$\nabla_\theta \log p(V;\theta) \approx \frac{1}{M} \sum_{i=1}^M \nabla_\theta \log p(\sigma_i;\theta)$$
 
-We used Metropolis-Hasting algorithm to sample from distribution $p(\cdot\|S;\theta)$ [6][7]. In this algorithm, at every time step, we first propose a new sequence $\sigma_{new}$ from some proposal distribution $Q$ based on our current sequence $\sigma$ and $\theta$. Then we make a transition to $\sigma_{new}$ with probability $p_{accept}$ given by 
+We used Metropolis-Hasting algorithm to sample from distribution $p(\cdot\|S;\theta)$. In this algorithm, at every time step, we first propose a new sequence $\sigma_{new}$ from some proposal distribution $Q$ based on our current sequence $\sigma$ and $\theta$. Then we make a transition to $\sigma_{new}$ with probability $p_{accept}$ given by 
 
 $$p_{accept} = \min \left(1, \frac{p(\sigma_{new}|V;\theta)Q(\sigma|\sigma_{new};\theta)}{p(\sigma|V;\theta)Q(\sigma_{new}|\sigma;\theta)}\right)$$
 
@@ -141,24 +141,35 @@ In the picture below, we see a mutual exclusive effect of the genomic event deno
 Discussion
 ==========
 
-In the figure below, we show the output $\hat\theta$ from the simulation study on the left and the ground truth $\theta$ on the right. 
+## Identifiability Problem
 
-References
+In the figure below, we show the output $\hat\theta$ from the simulation study on the left and the ground truth $\theta$ on the right. As can be seen from the figure, although we are able to recover the distribution $S$, there is a discrepancy between the inferred theta ($\hat\theta$) and the ground truth theta ($\theta$). This identifiability issue means that interpreting the inter genomic effects inferred by Sampling-MetMHN causally should only be done with caution. 
+
+The identifiability problem is common among the MHN class of models and is not limited to Sampling-MetMHN. Solving this identifiability problem requires further research.
+
+![](https://github.com/ChenxiNie/ChenxiNie.github.io/blob/master/images/Identifiability_issue.png?raw=true)
+
+## Data availability 
+
+Although much effort has been poured into cancer genomics, the paired samples of both primary tumors and metastases remain sparse. In our dataset, only 76 patients have both primary tumor and metastasis sequenced, while there are additionally 998 patients with both primary tumors and metastasis but only the primary tumor got sequenced. Should we add these 998 patients to the dataset, we would be more confident about our model output. 
+
+## Simplifying assumptions
+
+To fit the metastatic process into the MHN frameworks, we have to make some simplifying assumptions.
+
+First, we ignored intratumor heterogeneity. In this model, we represent each tumor using only one genotype. However, in reality, distinct tumor cell populations within the same specimen are of great importance and contribute to therapeutic resistance, recurrence, as well as metastatic seeding. 
+
+Second, after a successful seeding event, the primary tumor and the metastasis are assumed to be independent of each other. In reality, the primary tumor is not only the source of metastatic cells but also modulates host responses to these cells, leading to enhancement or inhibition of metastasis.
+
+Conclusion
 ==========
-[1] Rudolf Schill, Stefan Solbrig, Tilo Wettig, Rainer Spang, Modelling cancer progression using Mutual Hazard Networks, Bioinformatics, Volume 36, Issue 1, January 2020, Pages 241–249, https://doi.org/10.1093/bioinformatics/btz513
 
-[2] Geiger TR, Peeper DS. Metastasis mechanisms. Biochim Biophys Acta. 2009 Dec;1796(2):293-308. doi: 10.1016/j.bbcan.2009.07.006. Epub 2009 Aug 14. PMID: 19683560.
+In this work, we propose a fast approximate MHN framework that models both primary tumors and metastases. It shares a similar mathematical framework as the original MHN but modifies the underlying CTMC to account for the independent evolution of primary tumor and metastasis after the seeding event. To the best of our knowledge, Sampling-MetMHN is one of the first cancer progression models that manages to model the genetic progression of primary tumors and metastases simultaneously.
 
-[3] Luzzi, K. J., MacDonald, I. C., Schmidt, E. E., Kerkvliet, N., Morris, V. L., Chambers, A. F.,
-and Groom, A. C. (1998). Multistep nature of metastatic inefficiency: dormancy of solitary
-cells after successful extravasation and limited survival of early micrometastases. The American
-journal of pathology, 153(3):865–873.
+Importnat References
+==========
+* The original MHN paper: Rudolf Schill, Stefan Solbrig, Tilo Wettig, Rainer Spang, Modelling cancer progression using Mutual Hazard Networks, Bioinformatics, Volume 36, Issue 1, January 2020, Pages 241–249, https://doi.org/10.1093/bioinformatics/btz513
 
-[4] Paget, S. (1889). The distribution of secondary growths in cancer of the breast. The Lancet,
-133(3421):571–573.
+* Gotovos' MCMC sampler for the original MHN: Gotovos, A., Burkholz, R., Quackenbush, J., and Jegelka, S. (2021). Scaling up continuous-time markov chains helps resolve underspecification. Advances in Neural Information Processing Systems, 34:14580–14592.
 
-[5] Gotovos, A., Burkholz, R., Quackenbush, J., and Jegelka, S. (2021). Scaling up continuous-time markov chains helps resolve underspecification. Advances in Neural Information Processing Systems, 34:14580–14592.
 
-[6] Metropolis, N., Rosenbluth, A. W., Rosenbluth, M. N., Teller, A. H., and Teller, E. (1953). Equation of state calculations by fast computing machines. The journal of chemical physics, 21(6):1087–1092.
-
-[7] Hastings, W. K. (1970). Monte carlo sampling methods using markov chains and their applications.
