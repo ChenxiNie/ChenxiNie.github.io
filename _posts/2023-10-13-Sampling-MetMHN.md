@@ -90,6 +90,40 @@ $$p_{accept} = \min \left(1, \frac{p(\sigma_{new}|V;\theta)Q(\sigma|\sigma_{new}
 
 With this Metropolis-Hasting sampler, we can calculate the log-derivative of Sampling-MetMHN efficiently.
 
+Results
+========
+
+Since we are only able to calcualte the log-derivative of Sampling-MetMHN, we implemented an AdaGrad optimizer with L1 penalty for Sampling-MetMHN and used that optimizer to learn the final output -- the $\theta$ matrix. 
+
+## Performance 
+
+Sampling-MetMHN was implemented using C++ and we ran Sampling-MetMHN with different numbers of genomic events on a 16 inch 2019 MacBook Pro with a 2.3 GHz 8-core i9 processor. For each run, 59 data points were generated using the Gillespie algorithm, and for each data point, 50 samples were drawn to calculate its log-derivative. We ran 500 iterations of AdaGrad for each run. The time to finish 500 iterations of AdaGrad is documented in the table below. 
+
+
+| n               | 5  | 10  | 15  | 20  | 25  |
+|-----------------|----|-----|-----|-----|-----|
+| Time in seconsd | 28 | 106 | 230 | 280 | 430 |
+
+
+## Simulation 
+
+We tested whether Sampling-MetMHN is able to recover the distribution of the state space $S$ given the input data $\mathcal{D}$, 
+
+In this simulation test, we modeled $n = 8$ genomic events. We randomly filled 90% of the off-diagonal entries with standard log-normal distribution and the other 10% with 0. We then sampled from a standard normal distribution to fill the diagonal entries. To simulate the passenger mutations, we also included two additional independent event where the two events do not interact with all other 8 genomic events and have only their base rates. 
+
+With this groud truth $\theta$ matrix, we again used the Gillespie algorithm and generated 800 samples as the input dataset $\mathcal{D}$ of Sampling-MetMHN. We then trained a MetMHN using these 800 samples. The output matrix of Sampling-MetMHN is denoted $\hat{\theta}$.
+
+To compare the distribution of state space $S$ given the dataset $\mathcal{D}$, we used the same Gillespie algorithm and generated 50,000 sample genotypes for bothe the ground truth theta ($\theta$) and the inferred theta $\hat{\theta}$.Then, for both $\theta$ and $\hat{\theta}$, we calculated the frequency of every possible genotype for $n=10$ events using these $50,000$ samples. The result $\text{freq}_\theta$ and $\text{freq}_{\hat{\theta}}$ are summarized in the table below. 
+
+| genotype                     | 00\|00\|...\|00\|0 | 00\|00\|...\|00\|1 | ...  | 11\|11\|...\|11\|1 |
+|------------------------------|--------------------|--------------------|------|--------------------|
+| $\text{freq}_\theta$         | 0.024              | 1.19e-5            | .... | 0.0032             |
+| $\text{freq}_{\hat{\theta}}$ | 0.015              | 2e-6               | ...  | 0.00577            |
+
+We then move on to plot the direct difference between each entry, i.e. $d_i = \text{freq}_\theta - \text{freq}_{\hat{\theta}}$, where $i \in \{ \text{all possible genotype}\}$.As can be seen from the figure below, the maximum difference between the two distributions is below 0.020.
+
+![](../images/simulation_distribution_comparison.png)
+
 
 References
 ==========
