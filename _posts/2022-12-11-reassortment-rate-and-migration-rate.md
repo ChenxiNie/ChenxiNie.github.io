@@ -60,8 +60,15 @@ Since at the sampling time, no migration event can happen, we set the initial ti
 
 With the introduction of the time window, we have to modify how to calculate the time until next reassortment event. Instead of directly using $\rho_ak_a$, we have to divide $k_a$ into two parts $k_{a1}$ and $k_{a2}$ where $k_{a1}$ is the number of lineages of type $a$ that is not in a time window, and $k_{a2} = k_a - k_{a1}$ is the number of lineages of type $a$ that is currently inside a time window. Now, we then model the time until the next reassortment event using an exponential distribution of rate $\rho_ak_{a1} + \rho_aS_ak_{a2}$ where $S_a$ is the reassortment scalar of type $a$ when its lineage is in a time window. Since we do not scale migration and coalescent rate, the time until the next migration event and the time until the next coalescent event are modeled using the same distribution described above. Updated rules regarding the parent(s) of these three kinds of events are described using an example of 3 lineages shown in the figure below. 
 
+![](https://github.com/ChenxiNie/ChenxiNie.github.io/blob/master/images/Simulation_with_Time_Window.jpg?raw=true)
 
+Going backward in time we have:
 
-
+1. At $t=0$, there are two samples, one human $l_1=[H, -1]$ and one avian $l_2[A, -1]$. Since we did not change the modeling of ancestral segments, $C{(l_i)}$ is omitted here for simplicity. 
+2. At $t1$, the human sample migrated to avian. Thus we have to change its type from Human to Avian and then we open a time window of length $w$ and update the time window for this sample. This means we update $l_1=[H,-1]$ to $l_3=[A, t1 + w]$. We then keep track of this lineage $l_3$ and scale its reassortment rate by a constant factor $S$.
+3. At $t2$, a coalescent event happened between $l_2$ and $l_3$. Here, we define that if one child lineage in the coalescent event is in a time window, then the parent lineage is also in a time window and the time window of that parent lineage is $\max(w_1,w_2)$ where $w_1$ and $w_2$ are the time windows of the two children. With that, the parent of $l_2$ and $l_3$ is a lineage with type $A$ and time window $\max(t1+w, -1) = t1+w$, i.e. $l_4 = [A, t1+w]$.
+4. At $t3$, sampling event happened and another human sample $l_5 = [H, -1]$ was introduced. 
+5. At $t4$, a reassortment event happened. For reassortment events, we define that the two parent lineage shares the same time window as the child lineage. Here, lineage $l_4 = [A, t1+w]$, so its two parents $l_6$ and $l_7$ are both type A and have their time windows set to $t1+w$. 
+6. At $t5$, another reassortment event happened, but this time, lineage $l_5$ is not in a time window. So, the parents of $l_5$, $l_6$ and $l_7$ are not in the   
 
 
