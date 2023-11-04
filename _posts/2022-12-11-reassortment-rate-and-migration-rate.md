@@ -1,5 +1,5 @@
 ---
-title: 'Exploring reassortment rate and migration rate in segmented viruses'
+title: 'A simulation algorithm to help explore the reassortment rate and reassortment rate'
 date: 2022-12-11
 permalink: /posts/2022/12/reassortment-rate-and-migration-rate/
 tags:
@@ -8,12 +8,15 @@ tags:
   - Simulation Algorithms
 ---
 
-In this lab rotation project, we set out to verify whether we could verify the conclusion that reassortment events are one of the main drivers for host jump events using a state-of-the-art phylogenetic model SCoRe.
+In this lab rotation project, we developed a simulation algorithm where, going backward in time, after a migration event, the reassortment rate of that lineage is scaled by a constant factor within a migration event. 
+
+This simulation algorithm plays an important role in verifying whether we are able to recover the long-believed theory that reassortment events drive host jump events in segmented viruses. 
+
 
 Introduction
 ============
 
-The genetic variation of segmented viruses is promoted by reassortment. Reassortment happens during coinfection, where different viral strains exchange segments to produce a viral progeny that contains segments from more than one parent. Additionally, influenza viruses are known to switch host species frequently, meaning that apart from reassortment, migration between host species is not uncommon. It is believed that reassortment events are one of the main drivers for host jump events. However, previously due to a lack of mathematical frameworks that take both reassortment and migration events into account, this has not yet been verified in statistical models.
+The genetic variation of segmented viruses is promoted by reassortment. Reassortment happens during coinfection, where different viral strains exchange segments to produce a viral progeny that contains segments from more than one parent. Additionally, influenza viruses are known to switch host species frequently, meaning that apart from reassortment, migration between host species is not uncommon. It is believed that reassortment events are one of the main drivers for host jump events. However, previously, due to a lack of mathematical frameworks that take both reassortment and migration events into account, this has not yet been verified in statistical models.
 
 Recently, SCoRe -- a model that jointly infers the migration and reassortment patterns for segmented viruses was proposed. When evaluating the model, it is suggested that there is a slight increase in reassortment rates before migration events. However, the 95% highest posterior density interval still includes no increase before migration events. During the discussion, the authors suggested that datasets with more distantly related species and span a longer time window could help improve the precision of these estimates. 
 
@@ -80,4 +83,16 @@ To verify the correctness of our simulation algorithm with time window, we compa
 
 We then simulated 100,000 networks with 100 samples and 2 types. We used the same sampling time, coalescent rate, migration rate, and reassortment rate for the two algorithms and set the scalar of the time window of both types to 1. We then plotted the distribution of the network height, the total network length, the reassortment events count, and the Kolmogorov-Smirnov statistics for the above three statistics in the figure below. 
 
+![](https://github.com/ChenxiNie/ChenxiNie.github.io/blob/master/images/simulation_algorithm_correctness.png?raw=true)
 
+As can be seen from the figure, the distributions of all three statistics are very similar, indicating that when the scalar is set to 1, the simulation algorithm with time window performs the same as the simulation algorithm without time window. 
+
+Conclusion
+==========
+
+In this short lab rotation project, we modified an existing simulation algorithm to allow a scaled reassortment rate after migration events. This simulation algorithm is able to generate datasets that would play a key role in verifying whether or not we are able to detect the alleviated reassortment rate after migration events in statistical models such as SCoRe. 
+
+Key Reference
+========
+
+* The SCoRe paper: Ugnė Stolz, Tanja Stadler, Nicola F Müller, Timothy G Vaughan, Joint Inference of Migration and Reassortment Patterns for Viruses with Segmented Genomes, Molecular Biology and Evolution, Volume 39, Issue 1, January 2022, msab342, https://doi.org/10.1093/molbev/msab342
