@@ -40,7 +40,25 @@ When reassortment events happen, ancestral segments carried by the child lineage
 
 With the introduction of the four inputs, we can describe formally the structure coalescent network simulation algorithm in the algorithm below. 
 
+![](https://github.com/ChenxiNie/ChenxiNie.github.io/blob/master/images/Structure%20Coalescent%20Network%20Simulation%20Algorithm.png?raw=true)
 
+## Structure Coalescent Network Simulation With Time Window
+
+Based on the existing structure coalescent network simulation algorithm, we developed a simulation algorithm that shares the same logic but is capable of scaling the reassortment rate after each migration event (going backward in time).
+
+The key change we made was the introduction of the "time window". Assume we observed a migration event from type $a$ to type $b$ on lineage $l$. We then define a period of time called a time window. During this time window, the reassortment rate of that lineage $l$ is scaled by a constant $S$. With the introduction of the time window, we update the definition of lineage $l$ from $l_i = [I, C(l)]$ to $l_i = [I, C(l),W_i]$ where $W_i$ is an indicator of whether this lineage is in a time window or not and if it is in a time window, $W_i$ then indicates when will this time window end. 
+
+$$
+W_i = 
+\begin{cases}
+-1 & \text{If } l_i \notin \text{time Window} \\
+\text{end time} & \text{If } l_i \in \text{time Window}
+\end{cases}
+$$
+
+Since at the sampling time, no migration event can happen, we set the initial time window $W_i$ to -1 by default and after a migration event at time $t$, we update $l_i$'s $W_i$ to $t + W_i$. 
+
+With the introduction of the time window, we have to modify how to calculate the time until next reassortment event. Instead of directly using $\rho_ak_a$, we have to divide $k_a$ into two parts $k_{a1}$ and $k_{a2}$ where $k_{a1}$ is the number of lineages of type $a$ that is not in a time window, and $k_{a2} = k_a - k_{a1}$ is the number of lineages of type $a$ that is currently inside a time window. Now, we then model the time until the next reassortment event using an exponential distribution of rate $\rho_ak_{a1} + \rho_aS_ak_{a2}$ where $S_a$ is the reassortment scalar of type $a$ when its lineage is in a time window. Since we do not scale migration and coalescent rate, the time until the next migration event and the time until the next coalescent event are modeled using the same distribution described above. Updated rules regarding the parent(s) of these three kinds of events are described using an example of 3 lineages shown in the figure below. 
 
 
 
