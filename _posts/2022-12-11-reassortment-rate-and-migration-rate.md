@@ -1,5 +1,5 @@
 ---
-title: 'A simulation algorithm to help explore the reassortment rate and reassortment rate'
+title: 'A simulation algorithm to help explore the reassortment rate and migration rate'
 date: 2022-12-11
 permalink: /posts/2022/12/reassortment-rate-and-migration-rate/
 tags:
