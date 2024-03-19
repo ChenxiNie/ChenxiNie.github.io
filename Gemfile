@@ -26,3 +26,5 @@ group :jekyll_plugins do
   gem 'hawkins'
   gem "webrick"
 end
+
+gem "json", "~> 2.7"

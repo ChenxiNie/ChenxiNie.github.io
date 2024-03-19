@@ -23,3 +23,20 @@ See more info at https://academicpages.github.io/
 1. Run `bundle clean` to clean up the directory (no need to run `--force`)
 1. Run `bundle install` to install ruby dependencies. If you get errors, delete Gemfile.lock and try again.
 1. Run `jekyll serve --livereload` to generate the HTML and serve it from `localhost:4000` the local server will automatically rebuild and refresh the pages on change.
+
+1. If bundle install complains about not having permission to write to whatever directory, we need to install the stuff locally. First use this command
+
+```
+bundle config set --local path '~/.gem'
+bundle install
+```
+
+7. Then start jekll serve using this command
+```
+bundle exec jekyll serve --livereload
+```
+8. If it complains json is missing, use this to install it
+```
+bundle add json
+bundle install
+```
